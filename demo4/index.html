@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+</head>
+<body>
+  <script>
+    var socket = io('ws://localhost:3000');
+    socket.on('news', function(data) {
+      console.log('接收server中返回的数据：', data);
+      socket.emit('my other event', {my: 'data'})
+    })
+  </script>
+</body>
+</html>

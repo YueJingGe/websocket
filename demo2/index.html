@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <input id="text" />
+  <button id="btn">发送</button>
+  <div id="show"></div>
+
+  <script>
+    let websocket = new WebSocket('ws://localhost:3000/');
+
+    websocket.onopen = function() {
+      console.log('open');
+      document.getElementById('show').innerHTML = 'connect';
+    }
+    websocket.onclose = function() {
+      console.log('close');
+    }
+    websocket.onmessage = function(e) {
+      console.log(e.data);
+      document.getElementById('show').innerHTML = e.data;
+    }
+    document.getElementById('btn').onclick = function() {
+      let val = document.getElementById('text').value;
+      websocket.send(val);
+    }
+  </script>
+</body>
+
+</html>

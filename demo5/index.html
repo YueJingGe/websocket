@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+</head>
+<body>
+  <input id="text" />
+  <button id="btn">发送</button>
+
+  <script>
+    let socket = io('ws://localhost:3000/');
+
+    function showMessage(data, type) {
+      let div = document.createElement('div');
+      div.innerHTML = data;
+      if(type === 'enter') {
+        div.style.color = 'blue';
+      }else if(type === 'left') {
+        div.style.color = 'red';
+      }
+      document.body.appendChild(div);
+    }
+
+    document.getElementById('btn').onclick = function() {
+      let val = document.getElementById('text').value;
+      socket.emit('message', val);
+    }
+
+    socket.on('enter', function(data) {
+      showMessage(data, 'enter');
+    })
+
+    socket.on('message', function(data) {
+      showMessage(data, 'message');
+    })
+
+    socket.on('left', function(data) {
+      showMessage(data, 'left');
+    })
+  </script>
+</body>
+
+</html>
